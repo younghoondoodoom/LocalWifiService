@@ -30,7 +30,7 @@ public class WifiOpenApiTest {
             br.close();
             System.out.println(response.toString());
         } catch (Exception e) {
-            System.out.println(e.fillInStackTrace());
+            e.printStackTrace(System.out);
         }
     }
 

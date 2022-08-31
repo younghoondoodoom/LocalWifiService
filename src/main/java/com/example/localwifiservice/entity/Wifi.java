@@ -26,7 +26,7 @@ public class Wifi {
     private String connection_env;
     private Double lat;
     private Double lnt;
-    private LocalDateTime work_datetime;
+    private String work_datetime;
 
 
 }
