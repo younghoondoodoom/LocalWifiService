@@ -5,19 +5,25 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class WifiRepository {
 
     private final ConnectionManager cm;
+    private static WifiRepository wifiRepository;
+
+    public static synchronized WifiRepository getWifiRepository() {
+        if (wifiRepository == null) {
+            wifiRepository = new WifiRepository(ConnectionManager.getConnectionManager());
+        }
+        return wifiRepository;
+    }
 
     private static final String SQL_SELECT_ALL = "select * from wifi";
-
-    public WifiRepository(ConnectionManager cm) {
-        this.cm = cm;
-    }
 
     public List<Wifi> getWifiList() {
         Connection conn = null;

@@ -15,7 +15,7 @@ public class ConnectionManager {
     private Connection conn;
 
     private final String DATABASE_DRIVER = "org.sqlite.JDBC";
-    private final String DATABASE_URL = "jdbc:sqlite:publicWifi.sqlite";
+    private final String DATABASE_URL = "jdbc:sqlite:/Users/choiyounghoon/Desktop/study/LocalWifiService/publicWifi.sqlite";
 
     public static synchronized ConnectionManager getConnectionManager() {
         if (connectionManager == null) {

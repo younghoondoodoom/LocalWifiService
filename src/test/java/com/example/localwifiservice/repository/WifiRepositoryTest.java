@@ -13,7 +13,7 @@ class WifiRepositoryTest {
     @Test
     public void getWifiListTest() throws Exception {
         //given
-        wifiRepository = new WifiRepository(ConnectionManager.getConnectionManager());
+        wifiRepository = WifiRepository.getWifiRepository();
 
         //when
         List<Wifi> wifiList = wifiRepository.getWifiList();
