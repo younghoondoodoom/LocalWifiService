@@ -2,6 +2,8 @@ package com.example.localwifiservice.repository;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -22,7 +24,7 @@ public class ConnectionManager {
         return connectionManager;
     }
 
-    public Connection getConn() throws SQLException {
+    public Connection getConnect() throws SQLException {
         if (conn != null && !conn.isClosed()) {
             return conn;
         }
@@ -40,6 +42,39 @@ public class ConnectionManager {
             e.printStackTrace(System.out);
         }
         return conn;
+    }
+
+    public void close(ResultSet rs){
+        if (rs == null) {
+            return;
+        }
+        try {
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace(System.out);
+        }
+    }
+
+    public void close(PreparedStatement pst) {
+        if (pst == null) {
+            return;
+        }
+        try {
+            pst.close();
+        } catch (SQLException e) {
+            e.printStackTrace(System.out);
+        }
+    }
+
+    public void close(Connection conn) {
+        if (conn == null) {
+            return;
+        }
+        try {
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace(System.out);
+        }
     }
 
 }
