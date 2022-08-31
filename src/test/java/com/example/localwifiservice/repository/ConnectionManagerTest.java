@@ -17,7 +17,7 @@ class ConnectionManagerTest {
         connectionManager = ConnectionManager.getConnectionManager();
 
         //when
-        Connection conn = connectionManager.getConn();
+        Connection conn = connectionManager.getConnect();
         String sql_insert = "insert into location_history (lat, lnt) values (123.231, 222.231)";
         String sql_select = "select * from location_history";
 
