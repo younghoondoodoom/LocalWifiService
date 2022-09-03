@@ -16,14 +16,19 @@ public class WifiRepository {
     private final ConnectionManager cm;
     private static WifiRepository wifiRepository;
 
+   private static final String SQL_SELECT_ALL = "select * from wifi";
+    private static final String SQL_INSERT_WIFI =
+        "insert into wifi (management_no, borough, name, road_name_address, detail_address, floor, install_type, install_institution,"
+            + " service_classification, network_type, installed_year, inout, connection_env, lat, lnt, work_datetime)"
+            + "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+
+
     public static synchronized WifiRepository getWifiRepository() {
         if (wifiRepository == null) {
             wifiRepository = new WifiRepository(ConnectionManager.getConnectionManager());
         }
         return wifiRepository;
     }
-
-    private static final String SQL_SELECT_ALL = "select * from wifi";
 
     public List<Wifi> getWifiList() {
         Connection conn = null;
@@ -38,7 +43,6 @@ public class WifiRepository {
             rs = pst.executeQuery();
 
             while (rs.next()) {
-                Long id = rs.getLong("id");
                 String management_no = rs.getString("management_no");
                 String borough = rs.getString("borough");
                 String name = rs.getString("name");
@@ -55,7 +59,7 @@ public class WifiRepository {
                 Double lat = rs.getDouble("lat");
                 Double lnt = rs.getDouble("lnt");
                 String work_datetime = rs.getString("work_datetime");
-                Wifi wifi = new Wifi(id, management_no, borough, name, road_name_address,
+                Wifi wifi = new Wifi(management_no, borough, name, road_name_address,
                     detail_address, floor,
                     install_type, install_institution, service_classification, network_type,
                     installed_year, inout, connection_env, lat, lnt, work_datetime);
@@ -70,5 +74,38 @@ public class WifiRepository {
             cm.close(conn);
         }
         return wifiList;
+    }
+
+    public boolean insertWifi(Wifi wifi) {
+        Connection conn = null;
+        PreparedStatement pst = null;
+
+        try {
+            conn = cm.getConnect();
+            pst = conn.prepareStatement(SQL_INSERT_WIFI);
+
+            pst.setString(1, wifi.getManagement_no());
+            pst.setString(2, wifi.getBorough());
+            pst.setString(3, wifi.getName());
+            pst.setString(4, wifi.getRoad_name_address());
+            pst.setString(5, wifi.getDetail_address());
+            pst.setString(6, wifi.getFloor());
+            pst.setString(7, wifi.getInstall_type());
+            pst.setString(8, wifi.getInstall_institution());
+            pst.setString(9, wifi.getService_classification());
+            pst.setString(10, wifi.getNetwork_type());
+            pst.setString(11, wifi.getInstalled_year());
+            pst.setString(12, wifi.getInout());
+            pst.setString(13, wifi.getConnection_env());
+            pst.setString(14, String.valueOf(wifi.getLat()));
+            pst.setString(15, String.valueOf(wifi.getLnt()));
+            pst.setString(16, wifi.getWork_datetime());
+
+            pst.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace(System.out);
+            return false;
+        }
+        return true;
     }
 }
