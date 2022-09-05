@@ -6,11 +6,11 @@ import lombok.Getter;
 import lombok.ToString;
 
 @Getter
-@ToString(of = {"id", "name", "management_no"})
-@AllArgsConstructor
+@ToString(of = {"name", "management_no"})
+@AllArgsConstructor()
 public class Wifi {
 
-    private Long id;
+    private Double distance;
     private String management_no;
     private String borough;
     private String name;
@@ -27,6 +27,5 @@ public class Wifi {
     private Double lat;
     private Double lnt;
     private String work_datetime;
-
 
 }
