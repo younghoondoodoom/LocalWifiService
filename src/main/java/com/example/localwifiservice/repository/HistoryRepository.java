@@ -19,6 +19,7 @@ public class HistoryRepository {
 
     private static final String SQL_SELECT_ALL = "select * from location_history order by inquiry_date desc";
     private static final String SQL_INSERT_HISTORY = "insert into location_history (lat, lnt) values (?, ?)";
+    private static final String SQL_DELETE_HISTORY = "delete from location_history where id = ?";
 
     public static synchronized HistoryRepository getHistoryRepository() {
         if (historyRepository == null) {
@@ -62,10 +63,11 @@ public class HistoryRepository {
             rs = pst.executeQuery();
 
             while (rs.next()) {
+                long id = rs.getLong("id");
                 double lat = rs.getDouble("lat");
                 double lnt = rs.getDouble("lnt");
                 Timestamp inquiry_date = rs.getTimestamp("inquiry_date");
-                LocationHistory history = new LocationHistory(lat, lnt, inquiry_date);
+                LocationHistory history = new LocationHistory(id, lat, lnt, inquiry_date);
 
                 historyList.add(history);
             }
@@ -79,6 +81,24 @@ public class HistoryRepository {
         }
 
         return historyList;
+    }
+
+    public boolean deleteHistory(Long id) {
+        Connection conn = null;
+        PreparedStatement pst = null;
+
+        try {
+            conn = cm.getConnect();
+            pst = conn.prepareStatement(SQL_DELETE_HISTORY);
+            pst.setString(1, String.valueOf(id));
+
+            pst.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace(System.out);
+            return false;
+        }
+
+        return true;
     }
 
 }
