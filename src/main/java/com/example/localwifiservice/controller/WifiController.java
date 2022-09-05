@@ -19,11 +19,11 @@ import javax.servlet.http.HttpServletResponse;
 public class WifiController extends HttpServlet {
 
     private final String key = "5555776a7264756437317a56427555";
+    WifiRepository wifiRepository = WifiRepository.getWifiRepository();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
-        WifiRepository wifiRepository = WifiRepository.getWifiRepository();
 
         int startIdx = 1;
         int endIdx = 1000;
@@ -59,6 +59,6 @@ public class WifiController extends HttpServlet {
             }
         }
 
-        response.sendRedirect("WEB-INF/pages/load-wifi.jsp");
+        response.sendRedirect("load-wifi.jsp");
     }
 }
