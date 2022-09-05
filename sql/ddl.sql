@@ -18,8 +18,10 @@ create table if not exists wifi
     work_datetime          text
 );
 
-create table if not exists location_history (
-    id  integer primary key autoincrement,
-    lat real,
-    lnt real
-)
+create table if not exists location_history
+(
+    id           integer primary key autoincrement,
+    lat          real,
+    lnt          real,
+    inquiry_date timestamp DATE DEFAULT (datetime('now','localtime'))
+);
