@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -30,13 +31,12 @@ public class WifiRepository {
         return wifiRepository;
     }
 
-    public List<Wifi> getWifiList() {
+    public List<Wifi> getWifiList(double curLat, double curLnt) {
         Connection conn = null;
         PreparedStatement pst = null;
         ResultSet rs = null;
 
         List<Wifi> wifiList = new ArrayList<>();
-
         try {
             conn = cm.getConnect();
             pst = conn.prepareStatement(SQL_SELECT_ALL);
@@ -56,16 +56,28 @@ public class WifiRepository {
                 String installed_year = rs.getString("installed_year");
                 String inout = rs.getString("inout");
                 String connection_env = rs.getString("connection_env");
-                Double lat = rs.getDouble("lat");
-                Double lnt = rs.getDouble("lnt");
+                double lat = rs.getDouble("lat");
+                double lnt = rs.getDouble("lnt");
                 String work_datetime = rs.getString("work_datetime");
-                Wifi wifi = new Wifi(management_no, borough, name, road_name_address,
+                Wifi wifi = new Wifi(getDistance(curLat, curLnt, lat, lnt), management_no, borough,
+                    name, road_name_address,
                     detail_address, floor,
                     install_type, install_institution, service_classification, network_type,
                     installed_year, inout, connection_env, lat, lnt, work_datetime);
                 wifiList.add(wifi);
             }
-
+            wifiList.sort(new Comparator<Wifi>() {
+                @Override
+                public int compare(Wifi o1, Wifi o2) {
+                    if (o1.getDistance().equals(o2.getDistance())) {
+                        return 0;
+                    } else if (o1.getDistance() > o2.getDistance()) {
+                        return 1;
+                    } else {
+                        return -1;
+                    }
+                }
+            });
         } catch (SQLException e) {
             e.printStackTrace(System.out);
         } finally {
@@ -105,7 +117,31 @@ public class WifiRepository {
         } catch (SQLException e) {
             e.printStackTrace(System.out);
             return false;
+        } finally {
+            cm.close(pst);
+            cm.close(conn);
         }
         return true;
+    }
+
+    private static double getDistance(double lat1, double lon1, double lat2, double lon2) {
+        double theta = lon1 - lon2;
+        double dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta));
+
+        dist = Math.acos(dist);
+        dist = rad2deg(dist);
+        dist = dist * 60 * 1.1515;
+        dist = dist * 1.609344;
+
+        return Math.round(dist * 10000) / 10000.0;
+    }
+
+
+    private static double deg2rad(double deg) {
+        return (deg * Math.PI / 180.0);
+    }
+
+    private static double rad2deg(double rad) {
+        return (rad * 180 / Math.PI);
     }
 }

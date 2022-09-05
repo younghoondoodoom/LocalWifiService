@@ -14,10 +14,11 @@ public class WifiSerializer {
     @Getter
     public static class TbPublicWifiInfo {
 
-        private Long list_total_count;
+        private int list_total_count;
         private Result RESULT;
         private List<Data> row;
 
+        @Getter
         public static class Result {
 
             String CODE;
@@ -25,6 +26,7 @@ public class WifiSerializer {
         }
 
 
+        @Getter
         public class Data {
 
             Long id;
@@ -52,7 +54,7 @@ public class WifiSerializer {
         ArrayList<Wifi> wifis = new ArrayList<>();
 
         for (Data data : TbPublicWifiInfo.row) {
-            Wifi wifi = new Wifi(data.X_SWIFI_MGR_NO, data.X_SWIFI_WRDOFC, data.X_SWIFI_MAIN_NM,
+            Wifi wifi = new Wifi(0.0, data.X_SWIFI_MGR_NO, data.X_SWIFI_WRDOFC, data.X_SWIFI_MAIN_NM,
                 data.X_SWIFI_ADRES1, data.X_SWIFI_ADRES2, data.X_SWIFI_INSTL_FLOOR,
                 data.X_SWIFI_INSTL_TY, data.X_SWIFI_INSTL_MBY, data.X_SWIFI_SVC_SE,
                 data.X_SWIFI_CMCWR, data.X_SWIFI_CNSTC_YEAR, data.X_SWIFI_INOUT_DOOR,

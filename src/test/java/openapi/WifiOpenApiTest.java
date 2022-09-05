@@ -10,7 +10,7 @@ public class WifiOpenApiTest {
     public static void main(String[] args) {
         String key = "5555776a7264756437317a56427555";
         try {
-            String apiUrl = "http://openapi.seoul.go.kr:8088/" + key + "/json/TbPublicWifiInfo/1/5/";
+            String apiUrl = "http://openapi.seoul.go.kr:8088/" + key + "/json/TbPublicWifiInfo/1/1/";
             URL url = new URL(apiUrl);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
