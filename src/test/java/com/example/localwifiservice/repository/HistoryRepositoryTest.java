@@ -14,8 +14,8 @@ class HistoryRepositoryTest {
     public void insertHistoryTest() throws Exception {
         //given
         historyRepository = HistoryRepository.getHistoryRepository();
-        LocationHistory history = new LocationHistory(37.5544069, 126.8998666, null);
-        LocationHistory history2 = new LocationHistory(38.5544069, 127.8998666, null);
+        LocationHistory history = new LocationHistory(null, 37.5544069, 126.8998666, null);
+        LocationHistory history2 = new LocationHistory(null, 38.5544069, 127.8998666, null);
         //when
         boolean b = historyRepository.insertHistory(history);
         boolean b2 = historyRepository.insertHistory(history2);
@@ -44,5 +44,22 @@ class HistoryRepositoryTest {
         assertThat(historyList.get(0).getLnt()).isEqualTo(126.8998666);
         assertThat(historyList.get(1).getLat()).isEqualTo(38.5544069);
         assertThat(historyList.get(1).getLnt()).isEqualTo(127.8998666);
+    }
+
+    @Test
+    public void deleteHistoryTest() throws Exception {
+        //given
+        historyRepository = HistoryRepository.getHistoryRepository();
+        LocationHistory history = new LocationHistory(null, 37.5544069, 126.8998666, null);
+        historyRepository.insertHistory(history);
+        List<LocationHistory> before = historyRepository.getHistoryList();
+
+        //when
+        historyRepository.deleteHistory(1L);
+        List<LocationHistory> after = historyRepository.getHistoryList();
+
+        //then
+        assertThat(before.size()).isEqualTo(1);
+        assertThat(after.size()).isEqualTo(0);
     }
 }
