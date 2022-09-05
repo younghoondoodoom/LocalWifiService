@@ -10,6 +10,7 @@ import lombok.ToString;
 @ToString(of = {"lat", "lnt"})
 @AllArgsConstructor
 public class LocationHistory {
+    private Long id;
     private Double lat;
     private Double lnt;
     private Timestamp inquiry_at;
