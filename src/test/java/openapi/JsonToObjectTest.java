@@ -34,7 +34,7 @@ public class JsonToObjectTest {
         WifiSerializer wifi = gson.fromJson(response.toString(), WifiSerializer.class);
 
         //then
-        assertThat(wifi.getTbPublicWifiInfo().getList_total_count()).isEqualTo(17804L);
+        assertThat(wifi.getTbPublicWifiInfo().getList_total_count()).isEqualTo(17804);
         assertThat(wifi.getTbPublicWifiInfo().getRow().get(0).getX_SWIFI_ADRES1()).isEqualTo(
             "서소문로 51");
     }
