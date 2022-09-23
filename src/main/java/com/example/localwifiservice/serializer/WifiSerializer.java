@@ -27,7 +27,7 @@ public class WifiSerializer {
 
 
         @Getter
-        public class Data {
+        public static class Data {
 
             Long id;
             String X_SWIFI_MGR_NO;
@@ -54,10 +54,14 @@ public class WifiSerializer {
         ArrayList<Wifi> wifis = new ArrayList<>();
 
         for (Data data : TbPublicWifiInfo.row) {
-            Wifi wifi = new Wifi(0.0, data.X_SWIFI_MGR_NO, data.X_SWIFI_WRDOFC, data.X_SWIFI_MAIN_NM,
-                data.X_SWIFI_ADRES1, data.X_SWIFI_ADRES2, data.X_SWIFI_INSTL_FLOOR,
-                data.X_SWIFI_INSTL_TY, data.X_SWIFI_INSTL_MBY, data.X_SWIFI_SVC_SE,
-                data.X_SWIFI_CMCWR, data.X_SWIFI_CNSTC_YEAR, data.X_SWIFI_INOUT_DOOR,
+            Wifi wifi = new Wifi(0.0, data.X_SWIFI_MGR_NO, data.X_SWIFI_WRDOFC,
+                data.X_SWIFI_MAIN_NM,
+                data.X_SWIFI_ADRES1, data.X_SWIFI_ADRES2,
+                data.X_SWIFI_INSTL_FLOOR,
+                data.X_SWIFI_INSTL_TY, data.X_SWIFI_INSTL_MBY,
+                data.X_SWIFI_SVC_SE,
+                data.X_SWIFI_CMCWR, data.X_SWIFI_CNSTC_YEAR,
+                data.X_SWIFI_INOUT_DOOR,
                 data.X_SWIFI_REMARS3, data.LAT, data.LNT, data.WORK_DTTM);
             wifis.add(wifi);
         }

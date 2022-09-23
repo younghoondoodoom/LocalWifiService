@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -22,21 +21,24 @@ public class WifiController extends HttpServlet {
     WifiRepository wifiRepository = WifiRepository.getWifiRepository();
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request,
+        HttpServletResponse response)
+        throws IOException {
 
         int startIdx = 1;
         int endIdx = 1000;
         int totalCount = 0;
 
         while (startIdx < endIdx) {
-            String apiUrl = "http://openapi.seoul.go.kr:8088/" + key + "/json/TbPublicWifiInfo/"
+            String apiUrl = "http://openapi.seoul.go.kr:8088/" + key
+                + "/json/TbPublicWifiInfo/"
                 + String.valueOf(startIdx) + "/" + String.valueOf(endIdx) + "/";
             URL url = new URL(apiUrl);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
 
-            BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            BufferedReader br = new BufferedReader(
+                new InputStreamReader(con.getInputStream()));
             String inputLine;
             StringBuilder resp = new StringBuilder();
             while ((inputLine = br.readLine()) != null) {
@@ -45,8 +47,10 @@ public class WifiController extends HttpServlet {
             br.close();
 
             Gson gson = new Gson();
-            WifiSerializer wifiSerializer = gson.fromJson(resp.toString(), WifiSerializer.class);
-            totalCount = wifiSerializer.getTbPublicWifiInfo().getList_total_count();
+            WifiSerializer wifiSerializer = gson.fromJson(resp.toString(),
+                WifiSerializer.class);
+            totalCount = wifiSerializer.getTbPublicWifiInfo()
+                .getList_total_count();
 
             for (Wifi wifi : wifiSerializer.getWifiList()) {
                 wifiRepository.insertWifi(wifi);

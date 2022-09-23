@@ -34,17 +34,13 @@ public class ConnectionManager {
 
             // DB 연결 객체 생성
             conn = DriverManager.getConnection(this.DATABASE_URL);
-
-            // 로그 출력
-            System.out.println("connected");
-
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace(System.out);
         }
         return conn;
     }
 
-    public void close(ResultSet rs){
+    public void close(ResultSet rs) {
         if (rs == null) {
             return;
         }

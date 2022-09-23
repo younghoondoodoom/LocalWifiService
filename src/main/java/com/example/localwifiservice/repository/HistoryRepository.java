@@ -23,7 +23,8 @@ public class HistoryRepository {
 
     public static synchronized HistoryRepository getHistoryRepository() {
         if (historyRepository == null) {
-            historyRepository = new HistoryRepository(ConnectionManager.getConnectionManager());
+            historyRepository = new HistoryRepository(
+                ConnectionManager.getConnectionManager());
         }
         return historyRepository;
     }
@@ -67,7 +68,8 @@ public class HistoryRepository {
                 double lat = rs.getDouble("lat");
                 double lnt = rs.getDouble("lnt");
                 Timestamp inquiry_date = rs.getTimestamp("inquiry_date");
-                LocationHistory history = new LocationHistory(id, lat, lnt, inquiry_date);
+                LocationHistory history = new LocationHistory(id, lat, lnt,
+                    inquiry_date);
 
                 historyList.add(history);
             }

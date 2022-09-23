@@ -3,6 +3,7 @@ create table if not exists wifi
     id                     integer primary key autoincrement,
     management_no          text,
     borough                text,
+    name                   text,
     road_name_address      text,
     detail_address         text,
     floor                  integer,
@@ -17,6 +18,7 @@ create table if not exists wifi
     lnt                    real,
     work_datetime          text
 );
+
 
 create table if not exists location_history
 (

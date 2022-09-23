@@ -17,7 +17,7 @@ public class WifiRepository {
     private final ConnectionManager cm;
     private static WifiRepository wifiRepository;
 
-   private static final String SQL_SELECT_ALL = "select * from wifi";
+    private static final String SQL_SELECT_ALL = "select * from wifi";
     private static final String SQL_INSERT_WIFI =
         "insert into wifi (management_no, borough, name, road_name_address, detail_address, floor, install_type, install_institution,"
             + " service_classification, network_type, installed_year, inout, connection_env, lat, lnt, work_datetime)"
@@ -26,7 +26,8 @@ public class WifiRepository {
 
     public static synchronized WifiRepository getWifiRepository() {
         if (wifiRepository == null) {
-            wifiRepository = new WifiRepository(ConnectionManager.getConnectionManager());
+            wifiRepository = new WifiRepository(
+                ConnectionManager.getConnectionManager());
         }
         return wifiRepository;
     }
@@ -50,8 +51,10 @@ public class WifiRepository {
                 String detail_address = rs.getString("detail_address");
                 String floor = rs.getString("floor");
                 String install_type = rs.getString("install_type");
-                String install_institution = rs.getString("install_institution");
-                String service_classification = rs.getString("service_classification");
+                String install_institution = rs.getString(
+                    "install_institution");
+                String service_classification = rs.getString(
+                    "service_classification");
                 String network_type = rs.getString("network_type");
                 String installed_year = rs.getString("installed_year");
                 String inout = rs.getString("inout");
@@ -59,11 +62,14 @@ public class WifiRepository {
                 double lat = rs.getDouble("lat");
                 double lnt = rs.getDouble("lnt");
                 String work_datetime = rs.getString("work_datetime");
-                Wifi wifi = new Wifi(getDistance(curLat, curLnt, lat, lnt), management_no, borough,
+                Wifi wifi = new Wifi(getDistance(curLat, curLnt, lat, lnt),
+                    management_no, borough,
                     name, road_name_address,
                     detail_address, floor,
-                    install_type, install_institution, service_classification, network_type,
-                    installed_year, inout, connection_env, lat, lnt, work_datetime);
+                    install_type, install_institution, service_classification,
+                    network_type,
+                    installed_year, inout, connection_env, lat, lnt,
+                    work_datetime);
                 wifiList.add(wifi);
             }
             wifiList.sort(new Comparator<Wifi>() {
@@ -124,9 +130,12 @@ public class WifiRepository {
         return true;
     }
 
-    private static double getDistance(double lat1, double lon1, double lat2, double lon2) {
+    private static double getDistance(double lat1, double lon1, double lat2,
+        double lon2) {
         double theta = lon1 - lon2;
-        double dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta));
+        double dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2))
+            + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(
+            deg2rad(theta));
 
         dist = Math.acos(dist);
         dist = rad2deg(dist);

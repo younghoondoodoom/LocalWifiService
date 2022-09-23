@@ -2,8 +2,6 @@ package com.example.localwifiservice.controller;
 
 import com.example.localwifiservice.repository.HistoryRepository;
 import java.io.IOException;
-import java.util.UUID;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,8 +13,9 @@ public class HistoryController extends HttpServlet {
     HistoryRepository historyRepository = HistoryRepository.getHistoryRepository();
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request,
+        HttpServletResponse response)
+        throws IOException {
         long id = Long.parseLong(request.getParameter("id"));
         historyRepository.deleteHistory(id);
         response.sendRedirect("history.jsp");
